@@ -10,10 +10,19 @@ import optuna
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction import DictVectorizer
 from mlflow.models.signature import infer_signature
+from mlflow.tracking import MlflowClient
+from mlflow.entities import ViewType
 from utils import model_eval, f1_eval
 from prefect import task, flow, get_run_logger
+from datetime import datetime
 
 from prefect_aws import S3Bucket
+
+experiment_name = os.getenv("EXPERIMENT_NAME", "training-pipeline")
+MLFLOW_TRACKING_URI = "sqlite:///backend.db"
+mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+client = MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
+mlflow.set_experiment(experiment_name)
 
 @task 
 def load_config(config_path):
@@ -156,13 +165,56 @@ def hpo(
 
     return None
 
+@task
+def search_best_model(experiment_name):
+    experiment = client.get_experiment_by_name(experiment_name)
+    model_meta_data = client.search_runs(
+        experiment_ids=experiment.experiment_id,
+        run_view_type=ViewType.ACTIVE_ONLY,
+        order_by=["metrics.f1_score DESC"], 
+        max_results=1
+    )[0]
+    return model_meta_data
+
+@task
+def register_best_model(model_meta_data, model_name="diabetes-classifier"):
+    
+    best_model_id = model_meta_data.info.run_id
+    best_model_uri = f"runs:/{best_model_id}/model"
+
+    reg_model_meta_data = mlflow.register_model(
+    model_uri=best_model_uri,
+    name=model_name
+    )
+
+    return reg_model_meta_data
+
+@task
+def transition_model_stage(
+    reg_model_meta_data, 
+    model_name="diabetes-classifier", 
+    stage="production"
+    ):
+
+    client.transition_model_version_stage(
+    name=model_name,
+    version=reg_model_meta_data.version,
+    stage=stage,
+    archive_existing_versions=True,
+    )
+
+    date = datetime.today().date()
+    client.update_model_version(
+    name=model_name,
+    version=reg_model_meta_data.version,
+    description=f"The model version {reg_model_meta_data.version} was transition to {stage} on {date}"
+    )
+
+    return None
+
+
 @flow(name="training_pipeline")
 def train(config_path):
-
-    experiment_name = os.getenv("EXPERIMENT_NAME", "training-pipeline")
-
-    mlflow.set_tracking_uri("sqlite:///backend.db")
-    mlflow.set_experiment(experiment_name)
 
     logger = get_run_logger()
 
@@ -192,9 +244,19 @@ def train(config_path):
     logger.info("Hyperparameter Tuning with XGBoost model")
     hpo(X_train, y_train, X_valid, y_valid)
 
+    logger.info("Searching the best model")
+    model_meta_data = search_best_model(experiment_name)
+
+    logger.info("Registering the best model")
+    reg_model_meta_data = register_best_model(model_meta_data=model_meta_data)
+
+    logger.info("Transition the best model to the production stage")
+    transition_model_stage(reg_model_meta_data)
+
+
 if __name__ == "__main__":
 
-    train("config.yaml")
+    train(config_path="config.yaml")
 
     
 
