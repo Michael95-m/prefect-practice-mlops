@@ -10,6 +10,7 @@ export AWS_ACCESS_KEY_ID=****
 export AWS_SECRET_ACCESS_KEY=****
 export S3_BUCKET_NAME=**** ## bucket that you save the raw data for training pipeline
 ```
+## Running Training pipeline
 
 bash
 ```
@@ -17,14 +18,16 @@ python training_pipeline.py
 ```
 
 ```bash
-prefect server start 
-
-prefect work-pool create --type process train-pool
-
-prefect worker start --pool train-pool
-
-prefect deploy --name train-pipeline
-
- prefe
-
+prefect work-pool create --type process <pool-name>
 ```
+
+```bash
+prefect worker start --pool <pool-name>
+```
+
+```bash
+prefect deploy --name <pipeline-name>
+```
+
+```bash
+prefect deployment run <deployment-name>
