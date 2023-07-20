@@ -1,8 +1,7 @@
 from sklearn.metrics import roc_auc_score, f1_score, precision_score, recall_score
 import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("my_logger")
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 def model_eval(y_true, y_pred, y_pred_prob, print_result=False):
     auc = roc_auc_score(y_true, y_pred_prob)
@@ -11,10 +10,10 @@ def model_eval(y_true, y_pred, y_pred_prob, print_result=False):
     recall = recall_score(y_true, y_pred)
 
     if print_result:
-        logger.info("AUC is: {:.3f}".format(auc))
-        logger.info("f1 score is: {:.3f}".format(f1))
-        logger.info("Precision score is: {:.3f}".format(precision))
-        logger.info("Recall score is: {:.3f}".format(recall))
+        logging.info("AUC is: {:.3f}".format(auc))
+        logging.info("f1 score is: {:.3f}".format(f1))
+        logging.info("Precision score is: {:.3f}".format(precision))
+        logging.info("Recall score is: {:.3f}".format(recall))
     
     return auc, f1, precision, recall
 
