@@ -257,26 +257,3 @@ def train(config_path):
 if __name__ == "__main__":
 
     train(config_path="config.yaml")
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
