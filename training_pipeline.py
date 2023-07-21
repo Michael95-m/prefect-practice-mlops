@@ -168,13 +168,13 @@ def hpo(
 @task
 def search_best_model(experiment_name):
     experiment = client.get_experiment_by_name(experiment_name)
-    model_meta_data = client.search_runs(
+    best_model_meta_data = client.search_runs(
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
         order_by=["metrics.f1_score DESC"], 
         max_results=1
     )[0]
-    return model_meta_data
+    return best_model_meta_data
 
 @task
 def register_best_model(model_meta_data, model_name="diabetes-classifier"):
@@ -245,10 +245,10 @@ def train(config_path):
     hpo(X_train, y_train, X_valid, y_valid)
 
     logger.info("Searching the best model")
-    model_meta_data = search_best_model(experiment_name)
+    best_model_meta_data = search_best_model(experiment_name)
 
     logger.info("Registering the best model")
-    reg_model_meta_data = register_best_model(model_meta_data=model_meta_data)
+    reg_model_meta_data = register_best_model(model_meta_data=best_model_meta_data)
 
     logger.info("Transition the best model to the production stage")
     transition_model_stage(reg_model_meta_data)

@@ -7,25 +7,37 @@ name: prefect-practice-mlops
 prefect-version: 2.10.21
 
 # build section allows you to manage and build docker images
-build: null
+build:
 
 # push section allows you to manage if and how this project is uploaded to remote locations
-push: null
+push:
 
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
 - prefect.deployments.steps.git_clone:
     repository: https://github.com/Michael95-m/prefect-practice-mlops.git
     branch: main
-    access_token: null
+    access_token:
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
 - name: train
-  description: "Orchestration of training pipeline"
+  description: Orchestration of training pipeline
   schedule: {}
   entrypoint: training_pipeline.py:train
   parameters:
     config_path: config.yaml
   work_pool:
     name: train-pool
+- name: train-flow
+  version:
+  tags: []
+  description:
+  entrypoint: training_pipeline.py:train
+  parameters:
+    config_path: config.yaml
+  work_pool:
+    name: train-pool
+    work_queue_name:
+    job_variables: {}
+  schedule:

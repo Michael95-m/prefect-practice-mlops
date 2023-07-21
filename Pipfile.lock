@@ -121,19 +121,19 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:46803b8ae114ff139f2a87fcb5d2f5a5728f6c96fe3a2b9416a8fcbe761423ae",
-                "sha256:ef6a465d3b25b89bcd00ff69675b33917166145e544735dcb9978091f5b0b752"
+                "sha256:7132ac3f3a9c28b84dcc344cfb439d37d2c5ab45f6b577358fc9aeba5d5aab63",
+                "sha256:cf88309d9b8cd9a2fb0c8049cb4b217b4e9dcb55bf670d6054b0bbe2eef25e57"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.28.7"
+            "version": "==1.28.8"
         },
         "botocore": {
             "hashes": [
-                "sha256:f211ef5714bec8ae24b3fe737b8689611ef4d0dbea0ab46ef8328e112dd10ada",
-                "sha256:f4473f66c153c262b8262404d737f4249366daf00fb068b495577a24b830ebcb"
+                "sha256:092baa2168ae78080b0c28011527bfc11d8debd3767aa1e9a4ce8a91fd9943a2",
+                "sha256:61ba7efaa6305c1928b9b3fbb6f780cbfbd762e19008d20c11ba52b47f20e1b0"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.31.7"
+            "version": "==1.31.8"
         },
         "cachetools": {
             "hashes": [
@@ -1012,11 +1012,11 @@
         },
         "mypy-boto3-s3": {
             "hashes": [
-                "sha256:02dc6b9edf799afa160be1e3a9b38a383af6fcd80a97abd75d09410b26621e70",
-                "sha256:c23b7802b80a0388a146d7e8025552f21d44e349026a18fb751d9c698ed714b1"
+                "sha256:75b929c517c5ad8f97c14dfba5f8521db569157dc4ac76a07a178805777cff8c",
+                "sha256:c9ed17fee2c0e2edeb2966b3796af7b349dcc4eeee54dbd59a269fdb9418eb55"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.28.3.post2"
+            "version": "==1.28.8"
         },
         "mypy-boto3-secretsmanager": {
             "hashes": [
@@ -1263,19 +1263,19 @@
         },
         "prefect": {
             "hashes": [
-                "sha256:1df8c34d0f651eb31048d49411d9e501ff27570b02cf98927d1b4c299828c9d1",
-                "sha256:5f81a4d8d6369322e2419eff2621c2bd8a5af5367dfb67a3962cff39a2452440"
+                "sha256:1c74287b6ee0c3fb5d36b7ba6d86e86008237c08f513455a93c295e7f05fd19b",
+                "sha256:27ee1ff82fc1780e4cf06a2baf7409e338c05e241c69ba2ae3e982ab404c21bb"
             ],
             "index": "pypi",
-            "version": "==2.10.21"
+            "version": "==2.11.0"
         },
         "prefect-aws": {
             "hashes": [
-                "sha256:490cab3b220ae1f7c0f45d120dc5f4a9cefba5b60fc24558bf60f304f37eabf1",
-                "sha256:f33ba926bfb7595e4e72ddc5b97a6361d37225cc46afa90d05fbef52f77873fb"
+                "sha256:52d23f0269a27c34c9bf77789e543a948d0046cbe236fca5d54beedb9788a791",
+                "sha256:5d1cd8dd92163bdf6b136a56ceb0c6c96fed46471d60b1aceab5e1675f18e508"
             ],
             "index": "pypi",
-            "version": "==0.3.5"
+            "version": "==0.3.6"
         },
         "protobuf": {
             "hashes": [

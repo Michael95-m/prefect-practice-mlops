@@ -31,23 +31,30 @@ In order to deploy our workflow, we need to initiate the prefect project. We can
 prefect init --recipe git
 ```
 
-There are two ways to create the deployment configuration. The first one is editing the deployment part of the **prefect.yaml**. In prefect.yaml,we can give the name of the deployment, description, schedule. We must also provide entrypoint which is the flow inside the python script. We can also give the parameters of the flow. We must also give work_pool name to run the workflow.
+There are two ways to create the deployment configuration. The first one is editing the deployment part of the **prefect.yaml**. In prefect.yaml,we can give the **name of the deployment**, **description**, **schedule**. We must also provide **entrypoint** which is the flow inside the python script. We can also give the parameters of the flow. We must also give **work_pool** name to run the workflow.
 
 After that, we can deploy our workflow.
 ```
 prefect deploy --name <deployment-name>
 ```
 
-To create work-pool as a system process, use the following command. Replace <pool-name> with the name you like such as train-pool etc. This <pool-name> must be from the name we give in prefect.yaml.
+The second way is directly deploy our workflow directly without using **prefect.yaml**. We can do this by
+```
+prefect deploy <script.py>:<flow-name> -n <deployment-name> -p <pool-name> 
+```
+
+To create work-pool as a system process, use the following command. Replace <pool-name> with the name you like such as train-pool etc. This <pool-name> must be from the name we give in prefect.yaml. Actually, we can skip this steps because we can also create work-pool by using `prefect worker start` command.
 ```bash
 prefect work-pool create --type process <pool-name>
 ```
 
-Then we need to start our worker in work-pool to run the flow.
+Then we need to start our worker in work-pool to run the flow. If work-pool with <pool-name> didn't exist, that work-pool will be created.
 ```bash
 prefect worker start --pool <pool-name>
 ```
 
-After that, we can run our deployment flow.
+After that, we can run our deployment flow. 
 ```bash
-prefect deployment run <deployment-name>
+prefect deployment run <script-file-name>/<deployment-name>
+```
+The `<script-file-name>` is the name of the script file where our flow function exists and  `<deployment-name>` is the name of our deployment.
