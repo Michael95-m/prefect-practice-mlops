@@ -10,11 +10,17 @@ export AWS_ACCESS_KEY_ID=****
 export AWS_SECRET_ACCESS_KEY=****
 export S3_BUCKET_NAME=**** ## bucket that you save the raw data for training pipeline
 ```
+Replace **** with your credentials and your bucket name.
+
 ## Running Training pipeline
 
-To run the training pipeline, use the following command.
-bash
+Before starting training pipeline, we have to deal with the blocks that can save aws credentials and s3 bucket. To save this credential, we need to run **create_s3_bucket_block.py**
+```bash
+python create_s3_bucket_block.py
 ```
+
+To run the training pipeline, use the following command.
+```bash
 python training_pipeline.py
 ```
 
